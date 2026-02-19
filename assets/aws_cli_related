@@ -1,0 +1,73 @@
+PS C:\Users\devhi> aws --version
+aws-cli/2.23.0 Python/3.12.6 Windows/11 exe/AMD64
+//to check aws version 
+*********************************************************
+PS C:\Users\devhi> aws configure
+AWS Access Key ID [****************W4P2]:
+AWS Secret Access Key [****************VqBG]:
+Default region name [eu-west-2]:
+Default output format [json]:
+
+to confirgure aws cli need to provide key id, access key 
+*********************************************************
+List S3 Buckets: Lists all S3 buckets in your account.
+aws s3 ls
+*********************************************************
+Create an S3 Bucket: Creates a new S3 bucket with the specified name.
+aws s3 mb s3://bdus829/my_bucket_from_cli
+PS C:\Users\devhi> aws s3api put-object --bucket bigdata-jan-2025 --key jan
+{
+    "ETag": "\"d41d8cd98f00b204e9800998ecf8427e\"",
+    "ChecksumCRC64NVME": "AAAAAAAAAAA=",
+    "ChecksumType": "FULL_OBJECT",
+    "ServerSideEncryption": "AES256"
+}
+*********************************************************
+To list objects inside a specific S3 bucket using the AWS CLI, you can use the list-objects-v2 command. This command returns some or all (up to 1,000) of the objects in a bucket with each request. If you need to list objects beyond the first 1,000, you can use pagination techniques.
+aws s3api list-objects-v2 --bucket bigdata-jan-2025
+PS C:\Users\devhi> aws s3api list-objects-v2 --bucket bigdata-jan-2025
+{
+    "Contents": [
+        {
+            "Key": "feb",
+            "LastModified": "2025-01-17T16:11:08+00:00",
+            "ETag": "\"d41d8cd98f00b204e9800998ecf8427e\"",
+            "ChecksumAlgorithm": [
+                "CRC64NVME"
+            ],
+            "ChecksumType": "FULL_OBJECT",
+            "Size": 0,
+            "StorageClass": "STANDARD"
+        },
+        {
+            "Key": "jan",
+            "LastModified": "2025-01-17T16:08:34+00:00",
+            "ETag": "\"d41d8cd98f00b204e9800998ecf8427e\"",
+            "ChecksumAlgorithm": [
+                "CRC64NVME"
+            ],
+            "ChecksumType": "FULL_OBJECT",
+            "Size": 0,
+            "StorageClass": "STANDARD"
+        }
+    ],
+    "RequestCharged": null,
+    "Prefix": ""
+}
+*********************************************************
+
+to upload the file to s3
+aws s3 cp java_error_in_idea_22452.log s3://bigdata-jan-2025/jan/
+
+*********************************************************
+Delete Object from S3 Bucket
+To delete objects from an S3 bucket using the AWS CLI, you can use the aws s3 rm command. Here’s how you can do it:
+
+Deleting a single object:
+aws s3 rm s3://my-bucket/my-object
+PS C:\Users\devhi> aws s3 rm s3://bigdata-jan-2025/jan
+delete failed: s3://bigdata-jan-2025/jan An error occurred (AccessDenied) when calling the DeleteObject operation: User: arn:aws:iam::430006376054:user/bdus8292023 is not authorized to perform: s3:DeleteObject on resource: "arn:aws:s3:::bigdata-jan-2025/jan" because no identity-based policy allows the s3:DeleteObject action
+
+*********************************************************
+List DynamoDB Tables: Lists all DynamoDB tables in the default region.
+aws dynamodb list-tables
